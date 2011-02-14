@@ -19,7 +19,8 @@ typedef enum {
 
 Display *dpy;
 
-int find_keysym(char *name) {
+int
+find_keysym(char *name) {
     int i;
     for(i = 0; keynames[i].name != NULL; i++) {
         if (!strncmp(keynames[i].name, name, LINELENGTH))
@@ -28,7 +29,8 @@ int find_keysym(char *name) {
     return 0;
 }
 
-int fake_keypress(int keysym, keypress_mode m) {
+int
+fake_keypress(int keysym, keypress_mode m) {
     int kc = XKeysymToKeycode(dpy, keysym);
     if (kc == 0) return 0;
 
@@ -40,7 +42,8 @@ int fake_keypress(int keysym, keypress_mode m) {
     return 1;
 }
 
-int main(int argc, char **argv) {
+int
+main(int argc, char **argv) {
     int arg_idx = 0;
     char *dpy_name = XDisplayName(NULL);
     dpy = XOpenDisplay(dpy_name);
@@ -49,7 +52,7 @@ int main(int argc, char **argv) {
         dpy = XOpenDisplay(dpy_name);
     }
     if (dpy == NULL) {
-        fprintf(stderr, "failed to open dpy %s\n", dpy_name);
+        fprintf(stderr, "failed to open dpy %s\n", XDisplayName(NULL));
         exit(1);
     }
 
@@ -66,7 +69,7 @@ int main(int argc, char **argv) {
 
         /* remove trailing newline from line */
         char *p = strchr(line, '\n');
-        if(p) *p = '\0';
+        if (p) *p = '\0';
         
         keypress_mode mode = MODE_BOTH;
         if (*line == '+') {
